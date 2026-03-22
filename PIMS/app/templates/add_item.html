@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Item</title>
+</head>
+<body>
+
+<h2>Add Item</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <input name="name" placeholder="Item Name"><br><br>
+
+    <input name="category" placeholder="Category"><br><br>
+
+    <input type="number" name="quantity" placeholder="Quantity"><br><br>
+
+    <input type="number" name="min_quantity" placeholder="Minimum Quantity"><br><br>
+
+    <input type="date" name="expiry_date"><br><br>
+
+    <textarea name="description" placeholder="Description"></textarea><br><br>
+
+    <input type="number" step="0.01" name="price" placeholder="Price"><br><br>
+
+    <button>Add Item</button>
+</form>
+
+<hr>
+<a href="/">🏠 Dashboard</a>
+
+</body>
+</html>

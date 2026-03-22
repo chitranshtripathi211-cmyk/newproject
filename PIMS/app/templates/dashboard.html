@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Inventory Dashboard</h1>
+
+<a href="/add/">Add Item</a> |
+<a href="/logout/">Logout</a>
+
+<hr>
+
+<h3>Total Inventory Value: ₹{{ total_value }}</h3>
+<hr>
+
+<ul>
+{% for item in items %}
+    <li>
+        <b>{{ item.name }}</b><br>
+
+        Category: {{ item.category }} <br>
+        Quantity: {{ item.quantity }} <br>
+        Price: ₹{{ item.price }} <br>
+        Total: ₹{{ item.total }} <br>
+
+        {% if item.quantity <= item.min_quantity %}
+            <span style="color:red;">⚠ Low Stock</span><br>
+        {% endif %}
+
+        <br>
+        <a href="/edit/{{ item.id }}/">Edit</a> |
+        <a href="/delete/{{ item.id }}/">Delete</a>
+
+        <hr>
+    </li>
+{% endfor %}
+</ul>
+    
+</body>
+</html>

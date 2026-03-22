@@ -44,10 +44,14 @@ def logout_view(request):
 def dashboard(request):
     items = Item.objects.filter(user=request.user)
     low_stock = items.filter(quantity__lte=F('min_quantity'))
+    # total inventory value
+    total_value = sum(item.quantity * item.price for item in items)
+
 
     return render(request, 'dashboard.html', {
         'items': items,
-        'low_stock': low_stock
+        'low_stock': low_stock,
+        'total_value': total_value
     })
 
 
@@ -61,7 +65,9 @@ def add_item(request):
             category=request.POST.get('category'),
             quantity=request.POST.get('quantity'),
             min_quantity=request.POST.get('min_quantity'),
-            expiry_date=request.POST.get('expiry_date')
+            expiry_date=request.POST.get('expiry_date') ,
+            description=request.POST.get('description'),
+            price=request.POST.get('price') 
         )
         return redirect('dashboard')
 
@@ -87,6 +93,8 @@ def edit_item(request, id):
         item.quantity = request.POST.get('quantity')
         item.min_quantity = request.POST.get('min_quantity')
         item.expiry_date = request.POST.get('expiry_date')
+        item.description = request.POST.get('description')
+        item.price = request.POST.get('price')
 
         item.save()
         return redirect('dashboard')
