@@ -43,7 +43,9 @@ jobs:
 
       - name: Deploy to aws
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa "${{ secrets.AWS_EC2_USER }}"@"${{ secrets.AWS_EC2_IP }}" <<'EOF'
+          AWS_USER="$(printf '%s' "${{ secrets.AWS_EC2_USER }}" | tr -d '\r\n')"
+          AWS_HOST="$(printf '%s' "${{ secrets.AWS_EC2_IP }}" | tr -d '\r\n')"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -- "${AWS_USER}@${AWS_HOST}" <<'EOF'
 
 
           ###### case 1 : env folder inside the project folder ######
