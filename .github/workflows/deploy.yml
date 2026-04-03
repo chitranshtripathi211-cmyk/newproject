@@ -55,7 +55,6 @@ jobs:
 
           cd /home/ubuntu/newproject/PIMS
           python manage.py migrate
-
           sudo supervisorctl restart all
           sudo systemctl restart nginx
           EOF
