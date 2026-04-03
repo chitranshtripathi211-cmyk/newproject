@@ -36,7 +36,7 @@ jobs:
       - name : Setup SSH
         run : |
           mkdir -p ~/.ssh/
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.AWS_EC2_KEYS }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
       - name: Deploy to aws 
@@ -54,8 +54,9 @@ jobs:
 
           pip install -r requirements.txt
 
-          cd /home/ubuntu/<project_folder_name>
+          cd /home/ubuntu/newproject/PIMS
           python manage.py migrate
 
           sudo supervisorctl restart all
           sudo systemctl restart nginx
+          EOF
