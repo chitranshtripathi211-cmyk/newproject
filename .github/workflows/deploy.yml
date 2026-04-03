@@ -33,16 +33,17 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
       
-      - name : Setup SSH
-        run : |
-          mkdir -p ~/.ssh/
-          echo "${{ secrets.AWS_EC2_KEYS }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-
-      - name: Deploy to aws 
-        
+      - name: Setup SSH
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.AWS_EC2_USER }}@${{ secrets.AWS_EC2_IP }} << 'EOF'
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "${{ secrets.AWS_EC2_KEYS }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "${{ secrets.AWS_EC2_IP }}" >> ~/.ssh/known_hosts
+
+      - name: Deploy to aws
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa "${{ secrets.AWS_EC2_USER }}"@"${{ secrets.AWS_EC2_IP }}" <<'EOF'
 
 
           ###### case 1 : env folder inside the project folder ######
